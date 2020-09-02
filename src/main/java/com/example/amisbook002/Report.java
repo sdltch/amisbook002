@@ -59,7 +59,7 @@ public class Report {
         }else if(mySystem.contains("Linux")){
             reportFileName = "linuxreport.html";
             myreport = "/linuxreport/";
-            ROOT_DIR = "/amisbook/amisbook002/amisrobot";
+            ROOT_DIR = "/amisbook/amis/amisrobot";
             System.out.println("当前在111:"+mySystem+" 系统操作");
         }else {
             System.out.println("当前在111:"+mySystem+" 系统操作；且当前不支持该操作系统");

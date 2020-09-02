@@ -55,14 +55,14 @@ public class Report {
             reportFileName = "report.html";
             myreport = "\\report\\";
             ROOT_DIR = "D:\\testdata\\amisbook002\\amisrobot";
-            System.out.println("当前在11:"+mySystem+" 系统操作");
+            System.out.println("当前在121:"+mySystem+" 系统操作");
         }else if(mySystem.contains("Linux")){
             reportFileName = "linuxreport.html";
             myreport = "/linuxreport/";
             ROOT_DIR = "/amisbook/amis/amisrobot";
-            System.out.println("当前在11:"+mySystem+" 系统操作");
+            System.out.println("当前在121:"+mySystem+" 系统操作");
         }else {
-            System.out.println("当前在11:"+mySystem+" 系统操作；且当前不支持该操作系统");
+            System.out.println("当前在121:"+mySystem+" 系统操作；且当前不支持该操作系统");
         }
         File report;
         //String path = ROOT_DIR +"\\report\\";

@@ -2,14 +2,11 @@
 <suite name="Suite" parallel="false">
     <test name="test">
         <classes>
-            <class name="com.example.amisbook002.NewTest"/>
-            <class name="com.example.amisbook002.MainStart"/>
-            <class name="com.example.amisbook002.MainStart"/>
+
         </classes>
 
     </test>
     <listeners>
-        <listener class-name="com.example.amisbook002.report.ZTestReport"></listener>
     </listeners>
 
 </suite> <!-- Suite -->

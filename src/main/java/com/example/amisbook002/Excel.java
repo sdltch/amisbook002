@@ -25,7 +25,7 @@ public class Excel {
         System.out.println("===========os.namesxcel:"+mySystems);
         if(mySystems.contains("Windows")){
             //windows
-            paths = "D:\\testdata\\github\\amisrobot\\amisrobot\\excel\\testamirobot.xls";
+            paths = "D:\\testdata\\github\\amisbook\\amisrobot\\excel\\testamirobot.xls";
             System.out.println("当前在excel:"+mySystems+" 系统操作");
         }else if(mySystems.contains("Linux")){
             //linux路径
@@ -44,13 +44,13 @@ public class Excel {
         System.out.println("fileName1343114 = " + fileName);
         //根据包头进行判断文件类型
         String suffix = fileTypeJuedg.getFileType(paths);
-        System.out.println("文件真实类型"+suffix);
-        System.out.println("文件名称："+paths);
+        System.out.println("文件真实类型shuffix:"+suffix);
+        System.out.println("文件名称：paths:"+paths);
 //       //获取文件的后缀名 .jpg（以后缀名判断文件类型，
         String suff = paths.substring(paths.lastIndexOf("."));
-        System.out.println("文件后缀名称："+suff);
+        System.out.println("文件后缀名称suff："+suff);
         String ssuffixName = suff.toLowerCase();//使用toLowerCase()方法实现小写转换
-        System.out.println("后缀名处理成小写："+ssuffixName);
+        System.out.println("后缀名处理成小写suffxiname："+ssuffixName);
         //当文件真实类型为xls或者xlsx时，doc和xls；docx和xlsx的魔数一样，会判断错误
         //文件真实类型为xls或者xlsx时,以后缀名为准
         if(suffix.equals("xls") && ssuffixName.equals(".doc")){

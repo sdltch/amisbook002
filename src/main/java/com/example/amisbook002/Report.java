@@ -48,7 +48,7 @@ public class Report {
     }
 
     private static File createReport() {
-        //获取当前系统名称
+        //获取当前系统名称12424
         String mySystem = System.getProperties().getProperty("os.name");
         System.out.println("===========os.name:"+mySystem);
         if(mySystem.contains("Windows")){

@@ -103,25 +103,25 @@ public class MainStart {
                 String bodys = response.getBody();
                 String body = new String(bodys.getBytes("utf-8"),"utf-8");
                 //将body通过“=”进行分割，取出响应值（获取tonken)
-//                if(myresponse.contains("=")){
-//                    String[] responsesp = myresponse.split("=");
-//                    System.out.println("resoonp长:"+responsesp.length);
-//                    String sponseone = responsesp[0];
-//                    String sponsetwo = responsesp[1];
-//                    System.out.println("response-s-----"+sponseone);
-//                    System.out.println("response-s1-----"+sponsetwo);
-//                    //将body转化成JSONObject
-//                    JSONObject jsonObject = JSONObject.parseObject(body);
-//                    System.out.println("jsonObject实际为=====" + jsonObject.toString());
-//                    //通过Key：s，获取value：值
-//                    String value= jsonObject.getString(sponseone);
-//                    System.out.println("value实际为=====" + value);
-//                    //将value转化成JSONObject
-//                    JSONObject jsonvalue = JSONObject.parseObject(value);
-//                    //通过Key：s1，获取value：值,并附值
-//                    this.mytonken = jsonvalue.getString(sponsetwo);
-//                    System.out.println("实际为tonken=====" +this.mytonken);
-//                }
+                if(myresponse.contains("=")){
+                    String[] responsesp = myresponse.split("=");
+                    System.out.println("resoonp长:"+responsesp.length);
+                    String sponseone = responsesp[0];
+                    String sponsetwo = responsesp[1];
+                    System.out.println("response-s-----"+sponseone);
+                    System.out.println("response-s1-----"+sponsetwo);
+                    //将body转化成JSONObject
+                    JSONObject jsonObject = JSONObject.parseObject(body);
+                    System.out.println("jsonObject实际为=====" + jsonObject.toString());
+                    //通过Key：s，获取value：值
+                    String value= jsonObject.getString(sponseone);
+                    System.out.println("value实际为=====" + value);
+                    //将value转化成JSONObject
+                    JSONObject jsonvalue = JSONObject.parseObject(value);
+                    //通过Key：s1，获取value：值,并附值
+                    this.mytonken = jsonvalue.getString(sponsetwo);
+                    System.out.println("实际为tonken=====" +this.mytonken);
+                }
                 System.out.println("body实际为=====" + body);
                 //调用断言
                 MyAssert.assertIt(caseID, body, expected);

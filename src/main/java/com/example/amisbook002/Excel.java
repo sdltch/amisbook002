@@ -25,7 +25,7 @@ public class Excel {
         System.out.println("===========os.namesxcel:"+mySystems);
         if(mySystems.contains("Windows")){
             //windows
-            paths = "D:\\testdata\\amisbook002\\amisrobot\\excel\\testamirobot.xls";
+            paths = "D:\\testdata\\github\\amisrobot\\amisrobot\\excel\\testamirobot.xls";
             System.out.println("当前在excel:"+mySystems+" 系统操作");
         }else if(mySystems.contains("Linux")){
             //linux路径

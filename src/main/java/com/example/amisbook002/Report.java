@@ -54,8 +54,31 @@ public class Report {
         if(mySystem.contains("Windows")){
             reportFileName = "report.html";
             myreport = "\\report\\";
-            ROOT_DIR = "D:\\testdata\\amisbook002\\amisrobot";
+            ROOT_DIR = "D:\\testdata\\github\\amisbook\\amisrobot";
             System.out.println("当前在121:"+mySystem+" 系统操作");
+            //源文件路径
+            File startFile=new File("D:\\testdata\\github\\amisbook\\amisrobot\\report\\report.html");
+
+            //目的目录路径
+            File endDirection=new File("D:\\testdata\\github\\amisbook\\amisrobot\\");
+            //如果目的目录路径不存在，则进行创建
+            if(!endDirection.exists()) {
+                endDirection.mkdirs();
+            }
+
+            //目的文件路径=目的目录路径+源文件名称
+            File endFile=new File(endDirection+ File.separator+ startFile.getName());
+
+            try {
+	//调用File类的核心方法renameTo
+                if (startFile.renameTo(endFile)) {
+                    System.out.println("文件移动成功！目标路径：{"+endFile.getAbsolutePath()+"}");
+                } else {
+                    System.out.println("文件移动失败！起始路径：{"+startFile.getAbsolutePath()+"}");
+                }
+            }catch(Exception e) {
+                System.out.println("文件移动出现异常！起始路径：{"+startFile.getAbsolutePath()+"}");
+            }
         }else if(mySystem.contains("Linux")){
             reportFileName = "linuxreport.html";
             myreport = "/linuxreport/";

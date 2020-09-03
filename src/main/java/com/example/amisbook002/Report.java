@@ -16,7 +16,7 @@ import java.util.Date;
 public class Report {
 
     //public static final String reportFileName = "report.html";
-    //加上文件名称
+    //加上文件名称12
     public static String reportFileName = "report.html";
     public static String myreport = "\\report\\";
     public static String ROOT_DIR = "D:\\testdata\\amisbook002\\amisrobot";

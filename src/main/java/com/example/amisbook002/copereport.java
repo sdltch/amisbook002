@@ -15,17 +15,17 @@ import java.util.Date;
  */
 public class copereport {
 
-    public static final String reportFileName = "report.html";
-
-    public static final String ROOT_DIR = "D:\\testdata\\amisbook002\\amisrobot";
+    //public static final String reportFileName = "report.html";
+    //加上文件名称12
+    public static String reportFileName = "report.html";
+    public static String myreport = "\\report\\";
+    public static String ROOT_DIR = "D:\\testdata\\amisbook002\\amisrobot";
     private static int totalCase = 0;
     private static int passedCase = 0;
     private static int failedCase = 0;
     private static String caseStatus = "";
-    //private static String now = Long.toString(Calendar.getInstance().getTime().getTime());
     private static final File report = createReport();
     private static final File reportTmp = createReportTmp();
-
     public static String getDuration(String startTime, String endTime) {
         String duration = "0";
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -48,8 +48,49 @@ public class copereport {
     }
 
     private static File createReport() {
+        //获取当前系统名称12424
+        String mySystem = System.getProperties().getProperty("os.name");
+        System.out.println("===========os.name:"+mySystem);
+        if(mySystem.contains("Windows")){
+            reportFileName = "report.html";
+            myreport = "\\report\\";
+            ROOT_DIR = "D:\\testdata\\github\\amisbook\\amisrobot";
+            System.out.println("当前在121:"+mySystem+" 系统操作");
+            //源文件路径
+            File startFile=new File("D:\\testdata\\github\\amisbook\\amisrobot\\report\\report.html");
+
+            //目的目录路径
+            File endDirection=new File("D:\\testdata\\github\\amisbook\\amisrobot\\report\\reporthistory");
+            //如果目的目录路径不存在，则进行创建
+            if(!endDirection.exists()) {
+                endDirection.mkdirs();
+            }
+            String ss = startFile.getName();
+            //目的文件路径=目的目录路径+源文件名称
+            File endFile=new File(endDirection+ File.separator+ startFile.getName());
+
+            try {
+                //调用File类的核心方法renameTo
+                if (startFile.renameTo(endFile)) {
+                    System.out.println("文件移动成功！目标路径：{"+endFile.getAbsolutePath()+"}");
+                } else {
+                    System.out.println("文件移动失败！起始路径：{"+startFile.getAbsolutePath()+"}");
+                }
+            }catch(Exception e) {
+                System.out.println("文件移动出现异常！起始路径：{"+startFile.getAbsolutePath()+"}");
+            }
+        }else if(mySystem.contains("Linux")){
+            reportFileName = "linuxreport.html";
+            myreport = "/linuxreport/";
+            //ROOT_DIR = "/amisbook/amis/amisrobot";
+            ROOT_DIR = "/root/.jenkins/workspace/amisbook002/amisrobot";
+            System.out.println("当前在121:"+mySystem+" 系统操作");
+        }else {
+            System.out.println("当前在121:"+mySystem+" 系统操作；且当前不支持该操作系统");
+        }
         File report;
-        String path = ROOT_DIR +"\\report\\";
+        //String path = ROOT_DIR +"\\report\\";
+        String path = ROOT_DIR +myreport;
         String file = reportFileName;
         report = new File(path + file);
         if (!report.exists()) {
@@ -65,7 +106,8 @@ public class copereport {
 
     private static File createReportTmp() {
         File reportTmp;
-        String path = ROOT_DIR + "\\report\\";
+        //String path = ROOT_DIR + "\\report\\";
+        String path = ROOT_DIR + myreport;
         String file = reportFileName + ".tmp";
         //String file = reportFileName;
         reportTmp = new File(path + file);
@@ -98,7 +140,8 @@ public class copereport {
 
     private static String tagHead(String strTag) {
         String s, tagBegin, tagEnd;
-        tagBegin = "<HEAD charset='utf-8'>" + "\n";
+        tagBegin = "<HEAD language=\"java\" pageEncoding=\"UTF-8\" charset='utf-8'>" + "\n";
+        //<%@ page language="java" pageEncoding="UTF-8"%>
         tagEnd = "</HEAD>" + "\n";
         s = tagBegin + strTag + tagEnd;
         return s;
@@ -134,17 +177,19 @@ public class copereport {
 
     private static String tagTd(String strTag, String align, String bgColor, String width) {
         String s, tagBegin, tagEnd;
-        tagBegin = "<TD align=\"" + align + "\" bgcolor=\"" + bgColor + "\" width=" + width + ">" + "\n";
+        tagBegin = "<TD charset='utf-8' align=\"" + align + "\" bgcolor=\"" + bgColor + "\" width=" + width + ">" + "\n";
         tagEnd = "</TD>" + "\n";
         s = tagBegin + strTag + tagEnd;
         return s;
     }
 
-    private static String tagFont(String strTag, String color, int size, String face) {
+    private static String tagFont(String strTag, String color, int size, String face) throws UnsupportedEncodingException {
         String s, tagBegin, tagEnd;
         tagBegin = "<FONT color=\"" + color + "\" size=" + size + " face=\"" + face + "\">";
         tagEnd = "</FONT>" + "\n";
-        s = tagBegin + strTag + tagEnd;
+
+        String strTags = new String(strTag.getBytes("UTF-8"),"UTF-8");
+        s = tagBegin + strTags + tagEnd;
         return s;
     }
 
@@ -160,14 +205,14 @@ public class copereport {
         }
     }
 
-    private static String insertResultTable() {
+    private static String insertResultTable() throws UnsupportedEncodingException {
         File reportTmp = getReportTmp();
         String title, results, resultTable;
-        String[] strArray = {"开始时间", "用例编号", "是否通过", "响应","接口"};
+        String[] strArray = {"开始时间", "用例编号", "是否通过", "响应"};
         StringBuffer buffer = new StringBuffer();
         BufferedReader br;
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 4; i++) {
             String width = "";
             // Set the width for each column in the table
             switch (i) {
@@ -181,17 +226,14 @@ public class copereport {
                     width = "10%";
                     break;
                 case 3:
-                    width = "50%";
-                    break;
-                case 4:
-                    width = "10%";
+                    width = "60%";
                     break;
             }
-            strArray[i] = tagFont(strArray[i], "white", 4, "Arial");
+            strArray[i] = tagFont(strArray[i], "white", 3, "Arial");
             strArray[i] = tagTd(strArray[i], "center", "navy", width);
         }
-        title = tagTr(strArray[0] + strArray[1] + strArray[2] + strArray[3] + strArray[4], "navy");
-
+        title = tagTr(strArray[0] + strArray[1] + strArray[2] + strArray[3], "navy");
+        //System.out.println("title1 == ="+title);
         try {
             // Read all the records to a StringBuffer object from report temp file
             br = new BufferedReader(new FileReader(reportTmp));
@@ -218,7 +260,7 @@ public class copereport {
 //     * @param long endTime - - Start-time for accounting "execute time"
 //     * @return String
 //     */
-    private static String insertStatisticTable(int caseNum, String startTime, String endTime) {
+    private static String insertStatisticTable(int caseNum, String startTime, String endTime) throws UnsupportedEncodingException {
         String testingResult, title, result;
         String[] titleArray = {"开始时间", "结束时间", "持续时间", "状态", "所有用例", "成功用例", "失败用例"};
         String[] resultArray = new String[7];
@@ -235,7 +277,7 @@ public class copereport {
         }
         title = titleArray[0] + titleArray[1] + titleArray[2] +
                 titleArray[3] + titleArray[4] + titleArray[5] + titleArray[6];
-
+        //System.out.println("title2 == ="+title);
         for (int i = 0; i < 7; i++) {
             String width;
             String color;
@@ -280,7 +322,7 @@ public class copereport {
         }
         result = resultArray[0] + resultArray[1] + resultArray[2] +
                 resultArray[3] + resultArray[4] + resultArray[5] + resultArray[6];
-
+        //System.out.println("result == ="+result);
         testingResult = tagTable(tagTr(title, "navy") + tagTr(result, "white"), 960) + "<BR>";
         return testingResult;
     }
@@ -295,17 +337,17 @@ public class copereport {
 //     * @return null
 //     */
     //记录结果
-    public static void recordResult(Object[] caseID, boolean pass, String strDescrip,String interfaces) {
+    public static void recordResult(Object[] caseID, boolean pass, String strDescrip) throws UnsupportedEncodingException {
         File reportTmp = getReportTmp();
         String record;
         String time = Calendar.getInstance().getTime().toLocaleString();
-
+        //System.out.println("html响应："+strDescrip);
         //String times = new String(time.getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8);
         String result, color, bgColor, colorResult;
         String font = "Arial";
         int size = 2;
         //long totalCase, passedCase, failedCase;
-        String[] strArray = new String[5];
+        String[] strArray = new String[4];
 
         color = "black";
 
@@ -324,7 +366,6 @@ public class copereport {
         strArray[1] = tagFont(caseID[0].toString(), color, size, font);
         strArray[2] = tagFont(result, colorResult, size, font);
         strArray[3] = tagFont(strDescrip, color, size, font);
-        strArray[4] = tagFont(interfaces, color, size, font);
         for (int i = 0; i < 4; i++) {
             String align = "";
             String width = "";
@@ -344,18 +385,14 @@ public class copereport {
                     break;
                 case 3:
                     align = "left";
-                    width = "36%";
-                    break;
-                case 4:
-                    align = "center";
-                    width = "10%";
+                    width = "46%";
                     break;
             }
             // Set width for each column
 
             strArray[i] = tagTd(strArray[i], align, bgColor, width);
         }
-        record = tagTr(strArray[0] + strArray[1] + strArray[2] + strArray[3] + strArray[4], bgColor);
+        record = tagTr(strArray[0] + strArray[1] + strArray[2] + strArray[3], bgColor);
         writeFile(record, reportTmp); // Add the record to the runtime report temp file
 
         totalCase = passedCase + failedCase;
@@ -372,7 +409,7 @@ public class copereport {
 //     * @return null
 //     */
     //生成报告
-    public static void generateReport(String startTime, String endTime) {
+    public static void generateReport(String startTime, String endTime) throws UnsupportedEncodingException {
         File report = getReport();
         String title = tagTitle("MEAutomation Report");
         String resultTable, statisticTable, body, head, record;

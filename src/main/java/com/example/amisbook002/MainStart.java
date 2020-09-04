@@ -55,7 +55,8 @@ public class MainStart {
                 //方法
                 String method = line[2];
                 //地址
-                String url = myurl+line[3];
+                String interfaceUrl = line[3];
+                String url = myurl+interfaceUrl;
                 //String url = line[3];
                 System.out.println("：url路径："+url);
                 //参数
@@ -124,7 +125,7 @@ public class MainStart {
                 }
                 System.out.println("body实际为=====" + body);
                 //调用断言
-                MyAssert.assertIt(caseID, body, expected);
+                MyAssert.assertIt(caseID, body, expected,interfaceUrl);
 
             }
 

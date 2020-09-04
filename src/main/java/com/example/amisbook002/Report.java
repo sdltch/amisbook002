@@ -1,6 +1,7 @@
 package com.example.amisbook002;
 
 
+import javax.swing.text.html.HTML;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -38,7 +39,7 @@ public class Report {
         }
         return duration + " Seconds";
     }
-
+    //当前时间
     public static String getCurrentTime() {
         //SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -208,11 +209,13 @@ public class Report {
     private static String insertResultTable() throws UnsupportedEncodingException {
         File reportTmp = getReportTmp();
         String title, results, resultTable;
-        String[] strArray = {"开始时间", "用例编号", "是否通过", "响应"};
+        //String[] strArray = {"开始时间", "用例编号", "是否通过", "响应"};、
+        String[] strArray = {"开始时间", "用例编号", "url", "是否通过", "响应"};
+
         StringBuffer buffer = new StringBuffer();
         BufferedReader br;
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 5; i++) {
             String width = "";
             // Set the width for each column in the table
             switch (i) {
@@ -226,13 +229,16 @@ public class Report {
                     width = "10%";
                     break;
                 case 3:
-                    width = "60%";
+                    width = "10%";
+                    break;
+                case 4:
+                    width = "50%";
                     break;
             }
-            strArray[i] = tagFont(strArray[i], "white", 3, "Arial");
+            strArray[i] = tagFont(strArray[i], "white", 4, "Arial");
             strArray[i] = tagTd(strArray[i], "center", "navy", width);
         }
-        title = tagTr(strArray[0] + strArray[1] + strArray[2] + strArray[3], "navy");
+        title = tagTr(strArray[0] + strArray[1] + strArray[2] + strArray[3] + strArray[4], "navy");
         //System.out.println("title1 == ="+title);
         try {
             // Read all the records to a StringBuffer object from report temp file
@@ -337,7 +343,7 @@ public class Report {
 //     * @return null
 //     */
     //记录结果
-    public static void recordResult(Object[] caseID, boolean pass, String strDescrip) throws UnsupportedEncodingException {
+    public static void recordResult(Object[] caseID, boolean pass, String strDescrip,String myurl) throws UnsupportedEncodingException {
         File reportTmp = getReportTmp();
         String record;
         String time = Calendar.getInstance().getTime().toLocaleString();
@@ -347,7 +353,7 @@ public class Report {
         String font = "Arial";
         int size = 2;
         //long totalCase, passedCase, failedCase;
-        String[] strArray = new String[4];
+        String[] strArray = new String[5];
 
         color = "black";
 
@@ -364,9 +370,10 @@ public class Report {
         }
         strArray[0] = tagFont(time, color, size, font);
         strArray[1] = tagFont(caseID[0].toString(), color, size, font);
-        strArray[2] = tagFont(result, colorResult, size, font);
-        strArray[3] = tagFont(strDescrip, color, size, font);
-        for (int i = 0; i < 4; i++) {
+        strArray[2] = tagFont(myurl, color, size, font);
+        strArray[3] = tagFont(result, colorResult, size, font);
+        strArray[4] = tagFont(strDescrip, color, size, font);
+        for (int i = 0; i < 5; i++) {
             String align = "";
             String width = "";
             // Set align style for each column
@@ -377,28 +384,32 @@ public class Report {
                     break;
                 case 1:
                     align = "left";
-                    width = "25%";
+                    width = "18%";
                     break;
                 case 2:
                     align = "center";
-                    width = "11%";
+                    width = "18%";
                     break;
                 case 3:
                     align = "left";
-                    width = "46%";
+                    width = "10%";
+                    break;
+                case 4:
+                    align = "left";
+                    width = "36%";
                     break;
             }
             // Set width for each column
 
             strArray[i] = tagTd(strArray[i], align, bgColor, width);
         }
-        record = tagTr(strArray[0] + strArray[1] + strArray[2] + strArray[3], bgColor);
+        record = tagTr(strArray[0] + strArray[1] + strArray[2] + strArray[3] + strArray[4], bgColor);
         writeFile(record, reportTmp); // Add the record to the runtime report temp file
 
         totalCase = passedCase + failedCase;
     }
 
-    //    /**
+//    //    /**
 //     * Generate a HTML runtime report
 //     *
 //     * @param int caseNum - The actual number of TA test cases which are needed to run

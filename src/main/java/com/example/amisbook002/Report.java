@@ -65,12 +65,12 @@ public class Report {
             if(!endDirection.exists()) {
                 endDirection.mkdirs();
             }
-
-            //目的文件路径=目的目录路径+源文件名称
+            String ss = startFile.getName();
+           //目的文件路径=目的目录路径+源文件名称
             File endFile=new File(endDirection+ File.separator+ startFile.getName());
 
             try {
-	//调用File类的核心方法renameTo
+	            //调用File类的核心方法renameTo
                 if (startFile.renameTo(endFile)) {
                     System.out.println("文件移动成功！目标路径：{"+endFile.getAbsolutePath()+"}");
                 } else {

@@ -29,7 +29,8 @@ public class Excel {
             System.out.println("当前在excel:"+mySystems+" 系统操作");
         }else if(mySystems.contains("Linux")){
             //linux路径
-            paths = "/amisbook/amis/amisrobot/linuxexcel/testamirobot_linux.xls";
+            //paths = "/amisbook/amis/amisrobot/linuxexcel/testamirobot_linux.xls";
+            paths = "/root/.jenkins/workspace/amisbook002/amisrobot/linuxexcel/testamirobot_linux.xls";
             System.out.println("当前在excel:"+mySystems+" 系统操作");
         }else {
             System.out.println("当前在excel:"+mySystems+" 系统操作；且当前不支持该操作系统");

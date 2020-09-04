@@ -60,7 +60,7 @@ public class Report {
             File startFile=new File("D:\\testdata\\github\\amisbook\\amisrobot\\report\\report.html");
 
             //目的目录路径
-            File endDirection=new File("D:\\testdata\\github\\amisbook\\amisrobot\\");
+            File endDirection=new File("D:\\testdata\\github\\amisbook\\amisrobot\\report\\reporthistory");
             //如果目的目录路径不存在，则进行创建
             if(!endDirection.exists()) {
                 endDirection.mkdirs();
@@ -82,7 +82,8 @@ public class Report {
         }else if(mySystem.contains("Linux")){
             reportFileName = "linuxreport.html";
             myreport = "/linuxreport/";
-            ROOT_DIR = "/amisbook/amis/amisrobot";
+            //ROOT_DIR = "/amisbook/amis/amisrobot";
+            ROOT_DIR = "/root/.jenkins/workspace/amisbook002/amisrobot";
             System.out.println("当前在121:"+mySystem+" 系统操作");
         }else {
             System.out.println("当前在121:"+mySystem+" 系统操作；且当前不支持该操作系统");

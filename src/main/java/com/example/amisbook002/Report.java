@@ -3,6 +3,7 @@ package com.example.amisbook002;
 
 import javax.swing.text.html.HTML;
 import java.io.*;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -63,13 +64,14 @@ public class Report {
             //目的目录路径
             File endDirection=new File("D:\\testdata\\github\\amisbook\\amisrobot\\report\\reporthistory");
             //如果目的目录路径不存在，则进行创建
-            if(!endDirection.exists()) {
-                endDirection.mkdirs();
-            }
+                if(!endDirection.exists()) {
+                    endDirection.mkdirs();
+                }
             String ss = startFile.getName();
-           //目的文件路径=目的目录路径+源文件名称
-            File endFile=new File(endDirection+ File.separator+ startFile.getName());
 
+           //目的文件路径=目的目录路径+源文件名称
+            File endFile=new File(endDirection+ File.separator+startFile.getName());
+            //System.out.println("目的地文件路径："+endDirection+ File.separator+startFile.getName());
             try {
 	            //调用File类的核心方法renameTo
                 if (startFile.renameTo(endFile)) {
@@ -80,7 +82,22 @@ public class Report {
             }catch(Exception e) {
                 System.out.println("文件移动出现异常！起始路径：{"+startFile.getAbsolutePath()+"}");
             }
-        }else if(mySystem.contains("Linux")){
+            //改名
+            String copyone = "D:\\testdata\\github\\amisbook\\amisrobot\\report\\reporthistory\\report.html";
+            File fileone = new File(copyone);
+            //获取当前时间
+            SimpleDateFormat formatters = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
+            Date dates = new Date();
+            String datetimes = formatters.format(dates.getTime());
+            String copytwo = endDirection + File.separator + datetimes + fileone.getName();
+            //System.out.println("文件重命名后路径："+copytwo);
+            File filetwo = new File(copytwo);
+                if (fileone.renameTo(filetwo)) {
+                    System.out.println("重命名成功！");
+                } else {
+                    System.out.println("重命名失败！");
+                }
+            }else if(mySystem.contains("Linux")){
             reportFileName = "linuxreport.html";
             myreport = "/linuxreport/";
             //ROOT_DIR = "/amisbook/amis/amisrobot";
@@ -210,7 +227,7 @@ public class Report {
         File reportTmp = getReportTmp();
         String title, results, resultTable;
         //String[] strArray = {"开始时间", "用例编号", "是否通过", "响应"};、
-        String[] strArray = {"开始时间", "用例编号", "url", "是否通过", "响应"};
+        String[] strArray = {"开始时间", "用例编号", "api", "是否通过", "响应"};
 
         StringBuffer buffer = new StringBuffer();
         BufferedReader br;
@@ -268,9 +285,11 @@ public class Report {
 //     */
     private static String insertStatisticTable(int caseNum, String startTime, String endTime) throws UnsupportedEncodingException {
         String testingResult, title, result;
-        String[] titleArray = {"开始时间", "结束时间", "持续时间", "状态", "所有用例", "成功用例", "失败用例"};
+        String[] titleArray = {"开始时间", "结束时间", "持续时间", "成功比例", "所有用例", "成功用例", "失败用例"};
         String[] resultArray = new String[7];
-
+        NumberFormat numberFormat = NumberFormat.getInstance();
+        numberFormat.setMaximumFractionDigits(-1);
+        //result = numberFormat.format((float) allCommentJudgeStarCount / (float) allCommentJudgeCount /5*100)+ "%";
         for (int i = 0; i < 7; i++) {
             String width;
             if (i < 3) {
@@ -294,6 +313,8 @@ public class Report {
             }
             if (i == 6) {
                 color = "red";
+//            }else if(i == 5){
+//                color = "lime";
             } else {
                 color = "black";
             }
@@ -309,7 +330,10 @@ public class Report {
                     resultArray[i] = getDuration(startTime, endTime);
                     break;
                 case 3:
-                    resultArray[i] = caseStatus;
+                    //resultArray[i] = caseStatus;
+                    String format = numberFormat.format((float) passedCase / (float) caseNum * 100);
+                    resultArray[i] = format+"%";
+
                     break;
                 case 4:
                     resultArray[i] = String.valueOf(caseNum);//String.valueOf(totalCase);
@@ -425,6 +449,7 @@ public class Report {
         String title = tagTitle("MEAutomation Report");
         String resultTable, statisticTable, body, head, record;
         caseStatus = "Finished";
+        
 
         resultTable = insertResultTable();
         statisticTable = insertStatisticTable(totalCase, startTime, endTime);

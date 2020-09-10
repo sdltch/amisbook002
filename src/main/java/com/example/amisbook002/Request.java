@@ -2,6 +2,8 @@ package com.example.amisbook002;
 
 
 
+import com.alibaba.fastjson.JSONObject;
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.LoggerFactory;
@@ -16,6 +18,7 @@ import java.util.*;
 @Test
 public class Request {
     private String myCookie = "";
+    public static String getRsaPublicKey = "";
     private static Logger log = LoggerFactory.getLogger(Request.class);
     private final static String BOUNDARY = UUID.randomUUID().toString()
             .toLowerCase().replaceAll("-", "");// 边界标识
@@ -24,21 +27,21 @@ public class Request {
     //
 
     public Request() throws Exception {
-        //调用excel中的judgeExcel方法
-        ArrayList<String[]> readExcels = Excel.judgeExcel();
-        //ArrayList<String[]> readExcels = Excel.readExcel();
-        //取第三行数据
-        String[] loginUrlone = readExcels.get(2);
-        //获取登陆域名
-        String myurlone = loginUrlone[7];
-        //System.out.println("登录url文件路径："+myurlone);
         //获取登陆URl
-        String loginUrl = myurlone + loginUrlone[3];
-        //String loginUrl = strings[3];
-        String postData = loginUrlone[4];
-        Response doPost = this.doPost(loginUrl, postData);
-        this.myCookie = doPost.getCookie();
-        System.out.println("当前cookie：" + myCookie);
+        String loginUrl = DataManipulation.myurlRpa + DataManipulation.loginUrl;
+        System.out.println("登录url11："+loginUrl);
+        //登录入参
+        String postData = DataManipulation.loginData;
+        System.out.println("登录data："+ postData);
+        //获取cookie
+        Response doPostCookie = this.doPost(loginUrl, postData);
+        this.myCookie = doPostCookie.getCookie();
+        String body = doPostCookie.getBody();
+        System.out.println("登录响应1：" + body);
+        if (body.contains(DataManipulation.loginAssert)){
+            System.out.println("默认登录成功：" + body);
+        }
+        System.out.println("默认登录cookie：" + myCookie);
     }
 
     //Get请求
@@ -57,7 +60,6 @@ public class Request {
         }
         return response;
     }
-
     /**
      *      传参处理
      *      param为key=value？key=value形式，转化成list
@@ -82,6 +84,10 @@ public class Request {
 //    }
 
     //Post请求
+    public Response doPosts(String postUrl, JSONObject postdata) throws Exception {
+        Response response = null;
+        return response;
+    }
     public Response doPost(String postUrl, String postdata) {
         Response response = null;
         try {
@@ -95,6 +101,7 @@ public class Request {
             //发数据
             OutputStream outputStream = openConnection.getOutputStream();
             outputStream.write(postdata.getBytes());
+
             outputStream.flush();
             //收响应
             response = new Response(openConnection);
@@ -178,16 +185,16 @@ public class Request {
         openConnection.setRequestMethod("POST");
         //openConnection.setDoInput(true);
         openConnection.setDoOutput(true);
-
         openConnection.setRequestProperty("Content-Type", "application/Json; charset=UTF-8");
-
         //不缓存
         openConnection.setUseCaches(false);
         openConnection.setConnectTimeout(5000);
         openConnection.setReadTimeout(10000);
         openConnection.setRequestProperty("cookie", this.myCookie);
+        System.out.println("开始连接...");
         //建立连接
         openConnection.connect();
+        System.out.println("成功连接");
         return openConnection;
 
     }
@@ -355,7 +362,6 @@ public class Request {
                 ;
                 throw new Exception(e);
             }
-
         }
         return streamContentType;
     }

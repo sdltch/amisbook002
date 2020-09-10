@@ -22,10 +22,10 @@ public class Excel {
         String paths= null;
         //获取当前系统
         String mySystems = System.getProperties().getProperty("os.name");
-        System.out.println("===========os.namesxcel:"+mySystems);
+        //System.out.println("===========os.namesxcel:"+mySystems);
         if(mySystems.contains("Windows")){
             //windows
-            paths = "D:\\testdata\\github\\amisbook\\amisrobot\\excel\\testamirobot.xls";
+            paths = "D:\\testdata\\github\\amisbook\\amisrobot\\excel\\testamirobot001.xls";
             System.out.println("当前在excel:"+mySystems+" 系统操作");
         }else if(mySystems.contains("Linux")){
             //linux路径
@@ -39,19 +39,19 @@ public class Excel {
         //获取文件名称和后缀
         File tempFile =new File(paths.trim());
         String fileNames = tempFile.getName();
-        System.out.println("fileName1343114 = " + fileNames);
+        System.out.println("文件后缀名称= " + fileNames);
         //获取文件名称
         String fileName = fileNames.substring(0,fileNames.lastIndexOf("."));
-        System.out.println("fileName1343114 = " + fileName);
+        System.out.println("文件名称 = " + fileName);
         //根据包头进行判断文件类型
         String suffix = fileTypeJuedg.getFileType(paths);
-        System.out.println("文件真实类型shuffix:"+suffix);
-        System.out.println("文件名称：paths:"+paths);
+        System.out.println("文件真实类型 = "+suffix);
+        System.out.println("文件路径 = "+paths);
 //       //获取文件的后缀名 .jpg（以后缀名判断文件类型，
         String suff = paths.substring(paths.lastIndexOf("."));
-        System.out.println("文件后缀名称suff："+suff);
+        //System.out.println("文件后缀名称 = "+suff);
         String ssuffixName = suff.toLowerCase();//使用toLowerCase()方法实现小写转换
-        System.out.println("后缀名处理成小写suffxiname："+ssuffixName);
+        //System.out.println("后缀名处理成小写 = "+ssuffixName);
         //当文件真实类型为xls或者xlsx时，doc和xls；docx和xlsx的魔数一样，会判断错误
         //文件真实类型为xls或者xlsx时,以后缀名为准
         if(suffix.equals("xls") && ssuffixName.equals(".doc")){
@@ -71,19 +71,19 @@ public class Excel {
         }else {
             System.out.println("暂时不支持该格式："+suffix);
         }
-        System.out.println("文件真实后缀名称："+suffix);
+        //.out.println("文件真实后缀名称："+suffix);
         return all;
     }
     //xls
     public static ArrayList<String[]> readExcelxx(String mypathx) throws Exception {
         //创建XSSFWorkbook
         HSSFWorkbook hssfWorkbook = null;
-        System.out.println("poi包：xls");
+        //System.out.println("poi包：xls");
         try {
             //mypathx = "D:\\testdata\\amisbook002\\amisrobot\\excel\\testamirobot.xlsx";
             //创建工作簿
             hssfWorkbook = new HSSFWorkbook(new FileInputStream(mypathx));
-            System.out.println("xssfWorkbook对象：" + hssfWorkbook);
+            //System.out.println("xssfWorkbook对象：" + hssfWorkbook);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -91,7 +91,7 @@ public class Excel {
         ArrayList<String[]> alx = new ArrayList<String[]>();
         //读取第一个工作表
         HSSFSheet sheetx = hssfWorkbook.getSheetAt(0);
-        System.out.println("sheet对象：" + sheetx);
+        //System.out.println("sheet对象：" + sheetx);
         //获取最后一行的num，即总行数。此处从0开始计数
         int maxRow = sheetx.getLastRowNum();
         System.out.println("xlsx总行数为：" + maxRow);
@@ -100,9 +100,9 @@ public class Excel {
             int maxRol = sheetx.getRow(row).getLastCellNum();
             //创建一个String数组存放每行
             String[] rowDatax = new String[sheetx.getPhysicalNumberOfRows()];
-            System.out.println("--------第" + row + "行的数据如下--------");
+            //System.out.println("--------第" + row + "行的数据如下--------");
             for (int rol = 0; rol < maxRol; rol++){
-                System.out.println(sheetx.getRow(row).getCell(rol) + " ");
+                //System.out.println(sheetx.getRow(row).getCell(rol) + " ");
                 HSSFCell cellx = sheetx.getRow(row).getCell(rol);
                 //将每行数据保存在String数组中
                 rowDatax[rol] = cellx.getStringCellValue();
@@ -139,7 +139,7 @@ public class Excel {
             String[] rowData = new String[sheet.getColumns()];
             for (int j = 0; j < sheet.getColumns(); j++) {
                 Cell cell = sheet.getCell(j, i);
-                System.out.print(sheet.getCell(j, i) + "  ");
+                //System.out.print(sheet.getCell(j, i) + "  ");
                 //将每行数据保存在String数组中
                 rowData[j] = cell.getContents();
             }
@@ -158,7 +158,7 @@ public class Excel {
             //mypathx = "D:\\testdata\\amisbook002\\amisrobot\\excel\\testamirobot.xlsx";
             //创建工作簿
             xssfWorkbook = new XSSFWorkbook(new FileInputStream(mypathx));
-            System.out.println("xssfWorkbook对象：" + xssfWorkbook);
+            //System.out.println("xssfWorkbook对象：" + xssfWorkbook);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -166,25 +166,25 @@ public class Excel {
         ArrayList<String[]> alx = new ArrayList<String[]>();
         //读取第一个工作表
         XSSFSheet sheetx = xssfWorkbook.getSheetAt(0);
-        System.out.println("sheet对象：" + sheetx);
+        //System.out.println("sheet对象：" + sheetx);
         //获取最后一行的num，即总行数。此处从0开始计数
         int maxRow = sheetx.getLastRowNum();
-        System.out.println("xlsx总行数为：" + maxRow);
+        //System.out.println("xlsx总行数为：" + maxRow);
         for (int row = 0; row <= maxRow; row++) {
             //获取最后单元格num，即总单元格数 ***注意：此处从1开始计数***
             int maxRol = sheetx.getRow(row).getLastCellNum();
             //创建一个String数组存放每行
             String[] rowDatax = new String[sheetx.getPhysicalNumberOfRows()];
-            System.out.println("--------第" + row + "行的数据如下--------");
+            //System.out.println("--------第" + row + "行的数据如下--------");
             for (int rol = 0; rol < maxRol; rol++){
-                System.out.print(sheetx.getRow(row).getCell(rol) + " ");
+                //System.out.print(sheetx.getRow(row).getCell(rol) + " ");
                 XSSFCell cellx = sheetx.getRow(row).getCell(rol);
                 //将每行数据保存在String数组中
                 rowDatax[rol] = cellx.getStringCellValue();
             }
             //将每行保存在列表中。
             alx.add(rowDatax);
-            System.out.println();
+            //System.out.println();
         }
         xssfWorkbook.close();
         return alx;

@@ -1,7 +1,5 @@
 package com.example.amisbook002;
 
-import org.testng.annotations.Test;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;

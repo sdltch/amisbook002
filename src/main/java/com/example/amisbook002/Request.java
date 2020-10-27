@@ -84,10 +84,6 @@ public class Request {
 //    }
 
     //Post请求
-    public Response doPosts(String postUrl, JSONObject postdata) throws Exception {
-        Response response = null;
-        return response;
-    }
     public Response doPost(String postUrl, String postdata) {
         Response response = null;
         try {
@@ -191,6 +187,8 @@ public class Request {
         openConnection.setConnectTimeout(5000);
         openConnection.setReadTimeout(10000);
         openConnection.setRequestProperty("cookie", this.myCookie);
+        //openConnection.setRequestProperty("Authorization",this.myCookie);
+        System.out.println("cookie="+this.myCookie);
         System.out.println("开始连接...");
         //建立连接
         openConnection.connect();
@@ -214,14 +212,18 @@ public class Request {
         openConnection.setRequestProperty("Charset", "UTF-8");
         openConnection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
 
-
         //不缓存
         openConnection.setUseCaches(false);
         openConnection.setConnectTimeout(5000);
         openConnection.setReadTimeout(10000);
         openConnection.setRequestProperty("cookie", this.myCookie);
+        System.out.println("cookie="+this.myCookie);
         //建立连接
-        openConnection.connect();
+        try {
+            openConnection.connect();
+        } catch (Exception e){
+            log.error("writeParams failed", e);
+        }
         return openConnection;
 
     }

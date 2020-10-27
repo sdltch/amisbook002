@@ -227,35 +227,38 @@ public class Report {
         File reportTmp = getReportTmp();
         String title, results, resultTable;
         //String[] strArray = {"开始时间", "用例编号", "是否通过", "响应"};、
-        String[] strArray = {"开始时间", "用例编号", "api", "是否通过", "响应"};
-
+        String[] strArray = {"开始时间", "用例编号", "api", "是否通过", "响应","用例设计"};
         StringBuffer buffer = new StringBuffer();
         BufferedReader br;
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 6; i++) {
             String width = "";
             // Set the width for each column in the table
             switch (i) {
                 case 0:
-                    width = "20%";
+                    width = "16%";
                     break;
                 case 1:
-                    width = "10%";
+                    width = "5%";
                     break;
                 case 2:
                     width = "10%";
                     break;
                 case 3:
-                    width = "10%";
+                    width = "5%";
                     break;
                 case 4:
-                    width = "50%";
+                    width = "44%";
+                    break;
+                case 5:
+                    width = "20%";
                     break;
             }
             strArray[i] = tagFont(strArray[i], "white", 4, "Arial");
             strArray[i] = tagTd(strArray[i], "center", "navy", width);
         }
-        title = tagTr(strArray[0] + strArray[1] + strArray[2] + strArray[3] + strArray[4], "navy");
+        title = tagTr(strArray[0] + strArray[1] + strArray[2] + strArray[3]
+                + strArray[4] + strArray[5], "navy");
         //System.out.println("title1 == ="+title);
         try {
             // Read all the records to a StringBuffer object from report temp file
@@ -367,7 +370,8 @@ public class Report {
 //     * @return null
 //     */
     //记录结果
-    public static void recordResult(Object[] caseID, boolean pass, String strDescrip,String myurl) throws UnsupportedEncodingException {
+    public static void recordResult(Object[] caseID, boolean pass, String strDescrip,
+                  String myurl,String testcase) throws UnsupportedEncodingException {
         File reportTmp = getReportTmp();
         String record;
         String time = Calendar.getInstance().getTime().toLocaleString();
@@ -377,7 +381,7 @@ public class Report {
         String font = "Arial";
         int size = 2;
         //long totalCase, passedCase, failedCase;
-        String[] strArray = new String[5];
+        String[] strArray = new String[6];
 
         color = "black";
 
@@ -397,7 +401,8 @@ public class Report {
         strArray[2] = tagFont(myurl, color, size, font);
         strArray[3] = tagFont(result, colorResult, size, font);
         strArray[4] = tagFont(strDescrip, color, size, font);
-        for (int i = 0; i < 5; i++) {
+        strArray[5] = tagFont(testcase, colorResult, size, font);
+        for (int i = 0; i < 6; i++) {
             String align = "";
             String width = "";
             // Set align style for each column
@@ -422,12 +427,17 @@ public class Report {
                     align = "left";
                     width = "36%";
                     break;
+                case 5:
+                    align = "left";
+                    width = "10%";
+                    break;
             }
             // Set width for each column
 
             strArray[i] = tagTd(strArray[i], align, bgColor, width);
         }
-        record = tagTr(strArray[0] + strArray[1] + strArray[2] + strArray[3] + strArray[4], bgColor);
+        record = tagTr(strArray[0] + strArray[1] + strArray[2] + strArray[3]
+                + strArray[4] + strArray[5], bgColor);
         writeFile(record, reportTmp); // Add the record to the runtime report temp file
 
         totalCase = passedCase + failedCase;
@@ -455,7 +465,8 @@ public class Report {
         statisticTable = insertStatisticTable(totalCase, startTime, endTime);
 
         head = tagHead(title);
-        body = tagBody(resultTable + statisticTable);
+        //body = tagBody(resultTable + statisticTable);
+        body = tagBody(statisticTable + resultTable);
         record = tagHtml(head + body);
 
         writeFile(record, report); // Generate HTML runtime report

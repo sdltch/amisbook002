@@ -105,28 +105,28 @@ public class decryptByPublicKey {
         return encryptedData;
     }
     //需要加密的用户密码
-    public static void main(String[] args) throws Exception {
-        String str = "123456";
-        String result ="";
-        try {
-
-            result = Base64.encodeBase64String(encryptByPublicKey(str.getBytes(), RSA_PUB_KEY));
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        System.out.println("密码："+result);
-        Request ss = new Request();
-        String s= "{\n" +
-                "  \"loginName\": \"0215测试001\",\n" +
-                "  \"password\": \"{RSA}"+result+"\",\n" +
-                "  \"returnUrl\": \"/home\"\n" +
-                "}";
-        System.out.println("密码rsa："+s);
-        String url = "http://apis.develop.edge.customs.dev.amiintellect.com/api/connect/auth/authorize";
-        Response response = ss.doPost(url, s);
-        System.out.println("响应："+response.getBody());
-    }
+//    public static void main(String[] args) throws Exception {
+//        String str = "123456";
+//        String result ="";
+//        try {
+//
+//            result = Base64.encodeBase64String(encryptByPublicKey(str.getBytes(), RSA_PUB_KEY));
+//        } catch (Exception e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//        System.out.println("密码："+result);
+//        Request ss = new Request();
+//        String s= "{\n" +
+//                "  \"loginName\": \"0215测试001\",\n" +
+//                "  \"password\": \"{RSA}"+result+"\",\n" +
+//                "  \"returnUrl\": \"/home\"\n" +
+//                "}";
+//        System.out.println("密码rsa："+s);
+//        String url = "http://apis.develop.edge.customs.dev.amiintellect.com/api/connect/auth/authorize";
+//        Response response = ss.doPost(url, s);
+//        System.out.println("响应："+response.getBody());
+//    }
 //    public static byte[] encryptByPublicKeya(String data, String key) throws Exception {
 //        // 对公钥解密
 //        byte[] keyBytes = decryptBASE64(key);

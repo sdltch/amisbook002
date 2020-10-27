@@ -67,6 +67,8 @@ public class DataManipulation {
                 //根据给定的值，取响应值
                 String myresponse = line[8];
                 System.out.println("myresponse------"+myresponse);
+                //备注
+                String noteCase = line[9];
                 //获取响应值
                 Map<String, File> requestFiles = new HashMap<String, File>();
                 JosnConversionMap josnConversionMap = new JosnConversionMap();
@@ -75,10 +77,10 @@ public class DataManipulation {
                     data = myrequest(data, myrequest);
                     System.out.println("转化后data："+data);
                     //对登录接口的密码进行加密
-//                    if (line[1].equals("login")){
-//                        data = rsapassword(data);
-//                        System.out.println("加密data："+data);
-//                    }
+                    if (line[1].equals("login")){
+                        data = rsapassword(data);
+                        System.out.println("加密data："+data);
+                    }
                     response = ss.doPost(url, data);
                     System.out.println("当前请求：" + method);
                 } else if (method.equals("GET")) {
@@ -108,11 +110,11 @@ public class DataManipulation {
                 }
                 System.out.println("body实际为=====" + body);
                 //调用断言
-                MyAssert.assertIt(caseID, body, expected,interfaceUrl);
+                MyAssert.assertIt(caseID, body, expected,interfaceUrl,noteCase);
             }
         }
     }
-    //判断response中是否有值，并通过条件对data中的值进行处理
+    //判断excel中response中是否有值，并对response中的值进行处理
     public void myresponse(String body,String myresponse) {
         //将body转化成JSONObject
         JSONObject jsonObject = JSONObject.parseObject(body);
@@ -124,23 +126,24 @@ public class DataManipulation {
                 for(int i = 0;i<splitone.length;i++){
                     String myresponseone = splitone[i];
                     String[] splittwo = myresponseone.split("=");
-                    responseGinseng(jsonObject,splittwo);
+                    responseGinseng(jsonObject,splittwo,myresponse);
                 }
             }else {
                 System.out.println("myresponse没有分号："+myresponse);
                 String[] splitthree = myresponse.split("=");
-                responseGinseng(jsonObject,splitthree);
+                responseGinseng(jsonObject,splitthree,myresponse);
             }
         }
     }
-    public void responseGinseng(JSONObject jsonObject,String[] countsone){
+    //将excel表中response数据用“；”和“=”分割后，将响应的某个字段存入map中
+    public void responseGinseng(JSONObject jsonObject,String[] countsone,String myrespones){
         if (countsone.length == 2){
-            String sponsespone = countsone[0];
-            String sponsesptwo = countsone[1];
+            String sponseone = countsone[0];
+            String sponsetwo = countsone[1];
             //通过Key：s，获取value：值
-            String valueone = jsonObject.getString(sponsespone);
-            this.myjsonmap.put(sponsesptwo, valueone);
-            System.out.println("mapjih12:"+this.myjsonmap.get(sponsesptwo));
+            String valueone = jsonObject.getString(sponseone);
+            this.myjsonmap.put(sponsetwo, valueone);
+            System.out.println("mapjih12:"+this.myjsonmap.get(sponsetwo));
         }else if(countsone.length == 3){
             String sponseone = countsone[0];
             String sponsetwo = countsone[1];
@@ -155,14 +158,25 @@ public class DataManipulation {
             String valuetwo = jsonvalue.getString(sponsetwo);
             myjsonmap.put(sponsethree, valuetwo);
             System.out.println("mapjih13:"+myjsonmap.get(sponsethree));
+        }else if (countsone.length == 4){
+            String sponseone = countsone[0];
+            String sponsetwo = countsone[1];
+            String sponsethree = countsone[2];
+            String sponsefour = countsone[3];
+            String value = jsonObject.getString(sponseone);
+            JSONObject jsonObjectone = JSONObject.parseObject(value);
+            String valueone = jsonObjectone.getString(sponsetwo);
+            JSONObject jsonObjecttwo = JSONObject.parseObject(valueone);
+            String valuetwo = jsonObjecttwo.getString(sponsethree);
+            myjsonmap.put(sponsefour, valuetwo);
+        }else {
+            System.out.println("excel中的Respones不支持改格式"+myrespones);
         }
-
     }
 
     //判断request中是否有值，并通过条件对data中的值进行处理
     public String myrequest(String data,String myrequest) {
         String ss = data;
-        String myrequestsss = null;
         //将data转化成JSONObject
         System.out.println("data转化前："+ss);
         JSONObject jsonObject = JSONObject.parseObject(data);
@@ -179,19 +193,19 @@ public class DataManipulation {
                     //以=进行分割
                     String[] splitones = s.split("=");
                     System.out.println("request长度:" + splitones.length);
-                    jsonObject = requestGinseng(splitones, jsonObject);
+                    jsonObject = requestGinseng(splitones, jsonObject,myrequest);
                 }
             } else {
                 String[] requestspone = myrequest.split("=");
                 System.out.println("request长度:" + requestspone.length);
-                jsonObject = requestGinseng(requestspone, jsonObject);
+                jsonObject = requestGinseng(requestspone, jsonObject,myrequest);
             }
             ss=JSONObject.toJSONString(jsonObject);
         }
         return ss;
     }
     //通过传入的counts数组，判断长度，
-    public JSONObject requestGinseng(String[] counts,JSONObject jsonObject){
+    public JSONObject requestGinseng(String[] counts,JSONObject jsonObject,String myrequest){
         String myrequestsss = null;
         if (counts.length == 2){
             String questone = counts[0];
@@ -220,8 +234,24 @@ public class DataManipulation {
             myrequestsss = JSONObject.toJSONString(jsonvalue);
             //将data中的requesttwo数据更改为myrequestsss
             jsonObject.put(requestsone, myrequestsss);
-//            ss = JSONObject.toJSONString(jsonObject);
-//            System.out.println("data转1333化后：" + ss);
+        }else if (counts.length == 4){
+            String requestsone = counts[0];
+            String requeststwo = counts[1];
+            String requeststhree = counts[2];
+            String requestsfour = counts[3];
+            //通过第一个数据获取data中对应的数据
+            String requestObjone = jsonObject.getString(requestsone);
+            JSONObject jsonObjectone = JSONObject.parseObject(requestObjone);
+            String requestObjtwo = jsonObjectone.getString(requeststwo);
+            JSONObject jsonObjecttwo = JSONObject.parseObject(requestObjtwo);
+            //更改requesttwo的数据
+            jsonObjecttwo.put(requeststhree, myjsonmap.get(requestsfour));
+            String s = JSONObject.toJSONString(jsonObjecttwo);
+            jsonObjectone.put(requeststwo,s);
+            String s1 = JSONObject.toJSONString(jsonObjectone);
+            jsonObject.put(requestsone,s1);
+        }else{
+            System.out.println("excel中的Request不支持改格式"+myrequest);
         }
         return jsonObject;
     }
@@ -236,8 +266,8 @@ public class DataManipulation {
         //获取密钥
         try {
             decryptByPublicKey decryp = new decryptByPublicKey();
-            String results = Base64.encodeBase64String(decryp.encryptByPublicKey(passwordone.getBytes(),
-                    Request.getRsaPublicKey));
+            String results = Base64.encodeBase64String(decryp.encryptByPublicKey(
+                    passwordone.getBytes(), myjsonmap.get("getRsaPublicKey")));
             result = "{RSA}" +results;
             System.out.println("rsa加密后："+result);
         } catch (Exception e) {

@@ -65,7 +65,7 @@ public class Excel {
 //        //获取文件的后缀名 .jpg（以后缀名判断文件类型，如果用户更改文件后缀，会导致处理错误
 //        String suffix = paths.substring(paths.lastIndexOf("."));
         if(suffix.equals("xls")){
-            all = readExcelxx(paths);
+            all = readExcel(paths);
         }else if(suffix.equals("xlsx")){
             all = readExcelx(paths);
         }else {
@@ -94,7 +94,7 @@ public class Excel {
         //System.out.println("sheet对象：" + sheetx);
         //获取最后一行的num，即总行数。此处从0开始计数
         int maxRow = sheetx.getLastRowNum();
-        System.out.println("xlsx总行数为：" + maxRow);
+        System.out.println("xls总行数为：" + maxRow);
         for (int row = 0; row <= maxRow; row++) {
             //获取最后单元格num，即总单元格数 ***注意：此处从1开始计数***
             int maxRol = sheetx.getRow(row).getLastCellNum();
@@ -169,7 +169,7 @@ public class Excel {
         //System.out.println("sheet对象：" + sheetx);
         //获取最后一行的num，即总行数。此处从0开始计数
         int maxRow = sheetx.getLastRowNum();
-        //System.out.println("xlsx总行数为：" + maxRow);
+        System.out.println("xlsx总行数为：" + maxRow);
         for (int row = 0; row <= maxRow; row++) {
             //获取最后单元格num，即总单元格数 ***注意：此处从1开始计数***
             int maxRol = sheetx.getRow(row).getLastCellNum();

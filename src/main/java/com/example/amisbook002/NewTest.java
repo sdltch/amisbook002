@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
-
+//集装箱号规则校验
 public class NewTest {
     //平帐计算
     public static void pzjs(){

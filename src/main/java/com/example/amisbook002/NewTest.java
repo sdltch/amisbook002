@@ -1,20 +1,18 @@
 package com.example.amisbook002;
-
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.util.HashMap;
-import java.util.Map;
-//集装箱号校验规则
+
+/*
+* 平帐计算
+* 集装箱号校验规则
+*
+* */
 public class NewTest {
     //平帐计算
     public static void pzjs(){
         //数量
-        double b=31231;
+        double b=1324.123;
         //净耗
-        double c= 2;
+        double c= 1;
         //有形损耗%-无形损耗%
         double d=1;
         double e=1;
@@ -26,18 +24,20 @@ public class NewTest {
         DecimalFormat decimalFormat = new DecimalFormat("#.00000");
         String format = decimalFormat.format(cc);
         double v = Double.parseDouble(format);
+        System.out.println("除法不取位数="+cc);
+        System.out.println("除法取5位小数="+v);
         //除法不取位数
         double bb = b*cc;
         //除法取小数后5位
         double bbb = b*v;
-        System.out.println("v除法取小数后5位:"+v+"——————bb除法不取位数:"+bb+"-----bbb除法取小数后5位："+bbb);
+        System.out.println("——————bb除法不取位数计算结果:"+bb+"-----bbb除法取小数后5位计算结果："+bbb);
         String format1 = decimalFormat.format(bb);
         String format2 = decimalFormat.format(bbb);
-        System.out.println("format1除法不取位数:"+format1+"-----format2除法取小数后5位："+format2);
-        float i=1f,j=3f;
-        double k=1,x=3;
-        float df = i/j;
-        double dfa=k/x;
+        System.out.println("format1除法不取位数结果取5位小数:"+format1+"-----format2除法取小数后5位结果取5位小数："+format2);
+//        float i=1f,j=3f;
+//        double k=1,x=3;
+//        float df = i/j;
+//        double dfa=k/x;
 //        System.out.println(df+"dd"+dfa);
     }
     //集装箱号
@@ -90,7 +90,7 @@ public class NewTest {
         }
     }
     public static void main(String[] args){
-        //NewTest.pzjs();
-         NewTest.jzxjs();
+        NewTest.pzjs();
+        //NewTest.jzxjs();
         }
 }

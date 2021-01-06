@@ -26,6 +26,7 @@ public class copereport {
     private static String caseStatus = "";
     private static final File report = createReport();
     private static final File reportTmp = createReportTmp();
+
     public static String getDuration(String startTime, String endTime) {
         String duration = "0";
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -50,47 +51,47 @@ public class copereport {
     private static File createReport() {
         //获取当前系统名称12424
         String mySystem = System.getProperties().getProperty("os.name");
-        System.out.println("===========os.name:"+mySystem);
-        if(mySystem.contains("Windows")){
+        System.out.println("===========os.name:" + mySystem);
+        if (mySystem.contains("Windows")) {
             reportFileName = "report.html";
             myreport = "\\report\\";
             ROOT_DIR = "D:\\testdata\\github\\amisbook\\amisrobot";
-            System.out.println("当前在121:"+mySystem+" 系统操作");
+            System.out.println("当前在121:" + mySystem + " 系统操作");
             //源文件路径
-            File startFile=new File("D:\\testdata\\github\\amisbook\\amisrobot\\report\\report.html");
+            File startFile = new File("D:\\testdata\\github\\amisbook\\amisrobot\\report\\report.html");
 
             //目的目录路径
-            File endDirection=new File("D:\\testdata\\github\\amisbook\\amisrobot\\report\\reporthistory");
+            File endDirection = new File("D:\\testdata\\github\\amisbook\\amisrobot\\report\\reporthistory");
             //如果目的目录路径不存在，则进行创建
-            if(!endDirection.exists()) {
+            if (!endDirection.exists()) {
                 endDirection.mkdirs();
             }
             String ss = startFile.getName();
             //目的文件路径=目的目录路径+源文件名称
-            File endFile=new File(endDirection+ File.separator+ startFile.getName());
+            File endFile = new File(endDirection + File.separator + startFile.getName());
 
             try {
                 //调用File类的核心方法renameTo
                 if (startFile.renameTo(endFile)) {
-                    System.out.println("文件移动成功！目标路径：{"+endFile.getAbsolutePath()+"}");
+                    System.out.println("文件移动成功！目标路径：{" + endFile.getAbsolutePath() + "}");
                 } else {
-                    System.out.println("文件移动失败！起始路径：{"+startFile.getAbsolutePath()+"}");
+                    System.out.println("文件移动失败！起始路径：{" + startFile.getAbsolutePath() + "}");
                 }
-            }catch(Exception e) {
-                System.out.println("文件移动出现异常！起始路径：{"+startFile.getAbsolutePath()+"}");
+            } catch (Exception e) {
+                System.out.println("文件移动出现异常！起始路径：{" + startFile.getAbsolutePath() + "}");
             }
-        }else if(mySystem.contains("Linux")){
+        } else if (mySystem.contains("Linux")) {
             reportFileName = "linuxreport.html";
             myreport = "/linuxreport/";
             //ROOT_DIR = "/amisbook/amis/amisrobot";
             ROOT_DIR = "/root/.jenkins/workspace/amisbook002/amisrobot";
-            System.out.println("当前在121:"+mySystem+" 系统操作");
-        }else {
-            System.out.println("当前在121:"+mySystem+" 系统操作；且当前不支持该操作系统");
+            System.out.println("当前在121:" + mySystem + " 系统操作");
+        } else {
+            System.out.println("当前在121:" + mySystem + " 系统操作；且当前不支持该操作系统");
         }
         File report;
         //String path = ROOT_DIR +"\\report\\";
-        String path = ROOT_DIR +myreport;
+        String path = ROOT_DIR + myreport;
         String file = reportFileName;
         report = new File(path + file);
         if (!report.exists()) {
@@ -188,7 +189,7 @@ public class copereport {
         tagBegin = "<FONT color=\"" + color + "\" size=" + size + " face=\"" + face + "\">";
         tagEnd = "</FONT>" + "\n";
 
-        String strTags = new String(strTag.getBytes("UTF-8"),"UTF-8");
+        String strTags = new String(strTag.getBytes("UTF-8"), "UTF-8");
         s = tagBegin + strTags + tagEnd;
         return s;
     }

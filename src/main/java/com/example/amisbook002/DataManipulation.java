@@ -99,6 +99,7 @@ public class DataManipulation {
                 } else {
                     System.out.println("请求错误(系统暂时只支持get,post,sendpost请求):当前请求：" + method);
                     break;
+                    //continue;
                 }
                 //System.out.println("response------"+response);
                 String body = response.getBody();

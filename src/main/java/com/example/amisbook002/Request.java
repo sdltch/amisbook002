@@ -2,6 +2,7 @@ package com.example.amisbook002;
 
 
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.slf4j.Logger;
@@ -15,9 +16,13 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @Test
 public class Request {
     private String myCookie = "";
+    private String Authorization = "";
     public static String getRsaPublicKey = "";
     private static Logger log = LoggerFactory.getLogger(Request.class);
     private final static String BOUNDARY = UUID.randomUUID().toString()
@@ -36,6 +41,18 @@ public class Request {
         //获取cookie
         Response doPostCookie = this.doPost(loginUrl, postData);
         this.myCookie = doPostCookie.getCookie();
+        this.Authorization = doPostCookie.getCookie();
+        String loginBody = doPostCookie.getBody();
+        /*
+        *获取heade中的：Authorization
+        *
+        * 将body转化成JSONObject
+        * */
+        JSONObject jsonObject = JSONObject.parseObject(loginBody);
+        String data = jsonObject.getString("data");
+        JSONObject jsonObject1 = JSONObject.parseObject(data);
+        this.Authorization = jsonObject1.getString("id");
+        System.out.println("Authorization="+this.Authorization);
         String body = doPostCookie.getBody();
         System.out.println("登录响应1：" + body);
         if (body.contains(DataManipulation.loginAssert)){
@@ -60,28 +77,6 @@ public class Request {
         }
         return response;
     }
-    /**
-     *      传参处理
-     *      param为key=value？key=value形式，转化成list
-     */
-//    public void formatProcessing(List<TestBean> testBeanList, String param) {
-//        String[] nameValue = param.split("&");
-//        for (int i = 0; i < nameValue.length; i++) {
-//            String key = nameValue[i].split("=")[0];
-//            String value = nameValue[i].split("=")[1];
-//            TestBean testBean = new TestBean(key, value);
-//            testBeanList.add(testBean);
-//        }
-//    }
-
-//    public void formatMap(Map<String, String> map, String param) {
-//        String[] nameValue = param.split("&");
-//        for (int i = 0; i < nameValue.length; i++) {
-//            String key = nameValue[i].split("=")[0];
-//            String value = nameValue[i].split("=")[1];
-//            map.put(key, value);
-//        }
-//    }
 
     //Post请求
     public Response doPost(String postUrl, String postdata) {
@@ -153,21 +148,44 @@ public class Request {
 //        System.out.println("返回报文:" + buffer.toString());
         return response;
     }
-
+    /*
+    * put
+    *
+    * */
+    public Response doput(String postUrl, String postdata){
+        Response response = null;
+        try {
+            HttpURLConnection openConnection = this.postConnection(postUrl);
+            //System.out.println("params======" + postdata);
+            //发数据
+            OutputStream outputStream = openConnection.getOutputStream();
+            outputStream.write(postdata.getBytes());
+            outputStream.flush();
+            //收响应
+            response = new Response(openConnection);
+            //关闭
+            openConnection.disconnect();
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        return response;
+    }
 
     private HttpURLConnection getConnection(String postUrl) throws Exception {
         //得到一个url对象  参数为发送的地址
         URL url = new URL(postUrl);
         HttpURLConnection openConnection = (HttpURLConnection) url.openConnection();
-        openConnection.setDoInput(true);
-        openConnection.setDoOutput(true);
+        //设置http属性
+        openConnection.setDoInput(true);// 设置是否从httpUrlConnection读入，默认情况下是true;
+        openConnection.setDoOutput(true);// http正文内，因此需要设为true, 默认情况下是false;
         openConnection.setRequestProperty("Content-Type", "application/Json; charset=UTF-8");
-
         //不缓存
         openConnection.setUseCaches(false);
         openConnection.setConnectTimeout(5000);
         openConnection.setReadTimeout(10000);
         openConnection.setRequestProperty("cookie", this.myCookie);
+        openConnection.setRequestProperty("Authorization",this.Authorization);
         //建立连接
         openConnection.connect();
         return openConnection;
@@ -187,8 +205,7 @@ public class Request {
         openConnection.setConnectTimeout(5000);
         openConnection.setReadTimeout(10000);
         openConnection.setRequestProperty("cookie", this.myCookie);
-        //openConnection.setRequestProperty("Authorization",this.myCookie);
-        System.out.println("cookie="+this.myCookie);
+        openConnection.setRequestProperty("Authorization",this.Authorization);
         System.out.println("开始连接...");
         //建立连接
         openConnection.connect();
@@ -211,7 +228,7 @@ public class Request {
         openConnection.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
         openConnection.setRequestProperty("Charset", "UTF-8");
         openConnection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
-
+        openConnection.setRequestProperty("Authorization",this.Authorization);
         //不缓存
         openConnection.setUseCaches(false);
         openConnection.setConnectTimeout(5000);
@@ -367,6 +384,29 @@ public class Request {
         }
         return streamContentType;
     }
+
+    /**
+     *      传参处理
+     *      param为key=value？key=value形式，转化成list
+     */
+//    public void formatProcessing(List<TestBean> testBeanList, String param) {
+//        String[] nameValue = param.split("&");
+//        for (int i = 0; i < nameValue.length; i++) {
+//            String key = nameValue[i].split("=")[0];
+//            String value = nameValue[i].split("=")[1];
+//            TestBean testBean = new TestBean(key, value);
+//            testBeanList.add(testBean);
+//        }
+//    }
+
+//    public void formatMap(Map<String, String> map, String param) {
+//        String[] nameValue = param.split("&");
+//        for (int i = 0; i < nameValue.length; i++) {
+//            String key = nameValue[i].split("=")[0];
+//            String value = nameValue[i].split("=")[1];
+//            map.put(key, value);
+//        }
+//    }
 
 }
 

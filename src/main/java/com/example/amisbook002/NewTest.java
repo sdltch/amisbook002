@@ -1,5 +1,6 @@
 package com.example.amisbook002;
 import java.text.DecimalFormat;
+import java.util.stream.IntStream;
 
 /*
 * 平帐计算
@@ -7,15 +8,19 @@ import java.text.DecimalFormat;
 *
 * */
 public class NewTest {
+    public static void main(String[] args){
+        NewTest.pzjs();
+       // NewTest.jzxjs();
+    }
     //平帐计算
     public static void pzjs(){
         //数量
-        double b=1324.123;
+        double b=6;
         //净耗
-        double c= 1;
+        double c= 23.2381;
         //有形损耗%-无形损耗%
-        double d=1;
-        double e=1;
+        double d=3;
+        double e=0;
         double dd = d/100;
         double ee = e/100;
         double ss = 1-dd-ee;
@@ -43,7 +48,7 @@ public class NewTest {
     //集装箱号
     public static void jzxjs(){
         String ss = "QWWE1433422";
-        String[] strone = {"A","NULL","B","C","D","E","F","G","H","I","J","K",
+        String[] strone = {"A","","B","C","D","E","F","G","H","I","J","K",
                                    "","L","M","N","O","P","Q","R","S","T","U",
                                    "","V","W","X","Y","Z"};
         int powjx=0;
@@ -54,43 +59,47 @@ public class NewTest {
             int dsaf = dd+1;
             //System.out.println("subone的："+dd+"位："+subone);
             boolean matches = subone.matches("[0-9]+");
+            System.out.println("subone111的第："+dsaf+"位："+matches);
             if (matches == true){
                 //System.out.println("subone111的："+dd+"位："+matches);
                 int jzxone = Integer.parseInt(subone);
                 //System.out.println("intsubone="+jzxone);
-                //2的n次方
+                //2的dd次方
                 double pow = Math.pow(2,dd);
                 powjx += pow * jzxone;
-                System.out.println("subone的："+(dd+1)+"位："+pow+","+jzxone);
+                System.out.println("集装箱号："+ss+"的次方："+pow);
+                System.out.println("集装箱号："+ss+"的第："+dsaf+"位的运算对应符为："+jzxone+"；值为："+jzxone*pow);
             }else if(matches == false){
                 //System.out.println("subone222的："+dd+"位："+matches);
                 for (int aa=0; aa<strone.length; aa++){
                     String s = strone[aa];
                     //System.out.println("aa111="+s);
-                    if (strone[aa].equals(subone)){
+                    if (s.equals(subone)){
                         int jsone = aa + 10;
                         //System.out.println("dsaf="+dsaf);
+                        //2的dd次方
                         double pow = Math.pow(2, dd);
                         powjx += jsone * pow;
-                       System.out.println("sub1111one的："+dsaf+"位："+pow+","+jsone);
+                        System.out.println("集装箱号："+ss+"的次方："+pow);
+                        System.out.println("集装箱号："+ss+"的第："+dsaf+"位的运算对应符为："+jsone+"；值为："+jsone*pow);
                     }
                 }
             }
             System.out.println("第"+(dd+1)+"位，="+powjx);
         }
+        //对前10位取模
         double qmjs = powjx%11;
         int qmjs1 = (int) qmjs;
-        System.out.println("sdf="+qmjs1);
-        int subthree = ss.charAt(10);
-        System.out.println("sdf="+subthree);
-        if(qmjs1 == subthree){
+        System.out.println("对"+ss+"前10位取模="+qmjs1);
+        char subthree = ss.charAt(10);
+        //char转换int
+        int chars = Integer.parseInt(String.valueOf(subthree));
+        System.out.println("集装箱号："+ss+"，第11位值chars="+chars);
+        if(qmjs1 == chars){
             System.out.println(ss+"==pass");
         }else {
             System.out.println(ss+"==fail");
         }
     }
-    public static void main(String[] args){
-        NewTest.pzjs();
-        //NewTest.jzxjs();
-        }
+
 }

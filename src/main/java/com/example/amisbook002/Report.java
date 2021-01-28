@@ -54,12 +54,12 @@ public class Report {
         String mySystem = System.getProperties().getProperty("os.name");
         System.out.println("===========os.name:"+mySystem);
         if(mySystem.contains("Windows")){
-            reportFileName = "report.html";
+            reportFileName = "reportamirobot.html";
             myreport = "\\report\\";
             ROOT_DIR = "D:\\testdata\\github\\amisbook\\amisrobot";
             System.out.println("当前在121:"+mySystem+" 系统操作");
             //源文件路径
-            File startFile=new File("D:\\testdata\\github\\amisbook\\amisrobot\\report\\report.html");
+            File startFile=new File("D:\\testdata\\github\\amisbook\\amisrobot\\report\\reportamirobot.html");
 
             //目的目录路径
             File endDirection=new File("D:\\testdata\\github\\amisbook\\amisrobot\\report\\reporthistory");
@@ -67,8 +67,7 @@ public class Report {
                 if(!endDirection.exists()) {
                     endDirection.mkdirs();
                 }
-            String ss = startFile.getName();
-
+            //String ss = startFile.getName();
            //目的文件路径=目的目录路径+源文件名称
             File endFile=new File(endDirection+ File.separator+startFile.getName());
             //System.out.println("目的地文件路径："+endDirection+ File.separator+startFile.getName());
@@ -83,7 +82,7 @@ public class Report {
                 System.out.println("文件移动出现异常！起始路径：{"+startFile.getAbsolutePath()+"}");
             }
             //改名
-            String copyone = "D:\\testdata\\github\\amisbook\\amisrobot\\report\\reporthistory\\report.html";
+            String copyone = "D:\\testdata\\github\\amisbook\\amisrobot\\report\\reporthistory\\reportamirobot.html";
             File fileone = new File(copyone);
             //获取当前时间
             SimpleDateFormat formatters = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
@@ -97,8 +96,8 @@ public class Report {
                 } else {
                     System.out.println("重命名失败！");
                 }
-            }else if(mySystem.contains("Linux")){
-            reportFileName = "linuxreport.html";
+        }else if(mySystem.contains("Linux")){
+            reportFileName = "linuxreportamirobot.html";
             myreport = "/linuxreport/";
             //ROOT_DIR = "/amisbook/amis/amisrobot";
             ROOT_DIR = "/root/.jenkins/workspace/amisbook002/amisrobot";

@@ -74,13 +74,13 @@ public class DataManipulation {
                 JosnConversionMap josnConversionMap = new JosnConversionMap();
                 //根据method判定调用方法
                 if (method.equals("POST")) {
-                    data = myrequest(data, myrequest);
-                    System.out.println("转化后data："+data);
+//                    data = myrequest(data, myrequest);
+//                    System.out.println("转化后data："+data);
                     //对登录接口的密码进行加密
-                    if (line[1].equals("login")){
-                        data = rsapassword(data);
-                        System.out.println("加密data："+data);
-                    }
+//                    if (line[1].equals("login")){
+//                        data = rsapassword(data);
+//                        System.out.println("加密data："+data);
+//                    }
                     response = ss.doPost(url, data);
                     System.out.println("当前请求：" + method);
                 } else if (method.equals("GET")) {

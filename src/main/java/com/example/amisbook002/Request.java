@@ -34,24 +34,27 @@ public class Request {
     public Request() throws Exception {
         //获取登陆URl
         String loginUrl = DataManipulation.myurlRpa + DataManipulation.loginUrl;
-        System.out.println("登录url11："+loginUrl);
+        System.out.println("登录urlLL："+loginUrl);
         //登录入参
         String postData = DataManipulation.loginData;
-        System.out.println("登录data："+ postData);
+        System.out.println("登录dataLL："+ postData);
         //获取cookie
         Response doPostCookie = this.doPost(loginUrl, postData);
         this.myCookie = doPostCookie.getCookie();
         this.Authorization = doPostCookie.getCookie();
         String loginBody = doPostCookie.getBody();
+        System.out.println("this.loginBody："+ loginBody);
+
         /*
         *获取heade中的：Authorization
         *
         * 将body转化成JSONObject
         * */
         JSONObject jsonObject = JSONObject.parseObject(loginBody);
+        //通过【key】（data)获取value
         String data = jsonObject.getString("data");
         JSONObject jsonObject1 = JSONObject.parseObject(data);
-        this.Authorization = jsonObject1.getString("id");
+        this.Authorization = jsonObject1.getString("tokenHead")+jsonObject1.getString("token");
         System.out.println("Authorization="+this.Authorization);
         String body = doPostCookie.getBody();
         System.out.println("登录响应1：" + body);
@@ -200,6 +203,9 @@ public class Request {
         //openConnection.setDoInput(true);
         openConnection.setDoOutput(true);
         openConnection.setRequestProperty("Content-Type", "application/Json; charset=UTF-8");
+        openConnection.setRequestProperty("Accept","application/json, text/plain, */*");
+        //from表单
+        openConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
         //不缓存
         openConnection.setUseCaches(false);
         openConnection.setConnectTimeout(5000);

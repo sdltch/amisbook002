@@ -56,13 +56,13 @@ public class Report {
         if(mySystem.contains("Windows")){
             reportFileName = "reportamirobot.html";
             myreport = "\\report\\";
-            ROOT_DIR = "D:\\testdata\\github\\amisbook\\amisrobot";
+            ROOT_DIR = "D:\\testdata\\github\\amisbookclound\\amisrobot";
             System.out.println("当前在121:"+mySystem+" 系统操作");
             //源文件路径
-            File startFile=new File("D:\\testdata\\github\\amisbook\\amisrobot\\report\\reportamirobot.html");
+            File startFile=new File("D:\\testdata\\github\\amisbookclound\\amisrobot\\report\\reportamirobot.html");
 
             //目的目录路径
-            File endDirection=new File("D:\\testdata\\github\\amisbook\\amisrobot\\report\\reporthistory");
+            File endDirection=new File("D:\\testdata\\github\\amisbookclound\\amisrobot\\report\\reporthistory");
             //如果目的目录路径不存在，则进行创建
                 if(!endDirection.exists()) {
                     endDirection.mkdirs();
@@ -82,7 +82,7 @@ public class Report {
                 System.out.println("文件移动出现异常！起始路径：{"+startFile.getAbsolutePath()+"}");
             }
             //改名
-            String copyone = "D:\\testdata\\github\\amisbook\\amisrobot\\report\\reporthistory\\reportamirobot.html";
+            String copyone = "D:\\testdata\\github\\amisbookclound\\amisrobot\\report\\reporthistory\\reportamirobot.html";
             File fileone = new File(copyone);
             //获取当前时间
             SimpleDateFormat formatters = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");

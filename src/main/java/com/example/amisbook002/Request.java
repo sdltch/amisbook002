@@ -39,9 +39,10 @@ public class Request {
         String postData = DataManipulation.loginData;
         System.out.println("登录dataLL："+ postData);
         //获取cookie
-        Response doPostCookie = this.doPost(loginUrl, postData);
+        Response doPostCookie = this.doPostFrom(loginUrl, postData);
         this.myCookie = doPostCookie.getCookie();
         this.Authorization = doPostCookie.getCookie();
+        System.out.println("this.loginBody："+ this.Authorization);
         String loginBody = doPostCookie.getBody();
         System.out.println("this.loginBody："+ loginBody);
 
@@ -63,7 +64,6 @@ public class Request {
         }
         System.out.println("默认登录cookie：" + myCookie);
     }
-
     //Get请求
     public Response doGet(String getUrl) {
         //GET请求
@@ -80,8 +80,7 @@ public class Request {
         }
         return response;
     }
-
-    //Post请求
+    //Post请求josn
     public Response doPost(String postUrl, String postdata) {
         Response response = null;
         try {
@@ -96,6 +95,24 @@ public class Request {
             OutputStream outputStream = openConnection.getOutputStream();
             outputStream.write(postdata.getBytes());
 
+            outputStream.flush();
+            //收响应
+            response = new Response(openConnection);
+            //关闭
+            openConnection.disconnect();
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        return response;
+    }
+    //Post请求from
+    public Response doPostFrom(String postUrl, String postdata) {
+        Response response = null;
+        try {
+            HttpURLConnection openConnection = this.postFromConnection(postUrl);
+            OutputStream outputStream = openConnection.getOutputStream();
+            outputStream.write(postdata.getBytes());
             outputStream.flush();
             //收响应
             response = new Response(openConnection);
@@ -192,10 +209,9 @@ public class Request {
         //建立连接
         openConnection.connect();
         return openConnection;
-
     }
-
-    private HttpURLConnection postConnection(String postUrl) throws Exception {
+    //POST请求数据表单from
+    private HttpURLConnection postFromConnection(String postUrl) throws Exception {
         //得到一个url对象  参数为发送的地址
         URL url = new URL(postUrl);
         HttpURLConnection openConnection = (HttpURLConnection) url.openConnection();
@@ -217,7 +233,28 @@ public class Request {
         openConnection.connect();
         System.out.println("成功连接");
         return openConnection;
-
+    }
+    //POST请求数据josn
+    private HttpURLConnection postConnection(String postUrl) throws Exception {
+        //得到一个url对象  参数为发送的地址
+        URL url = new URL(postUrl);
+        HttpURLConnection openConnection = (HttpURLConnection) url.openConnection();
+        openConnection.setRequestMethod("POST");
+        //openConnection.setDoInput(true);
+        openConnection.setDoOutput(true);
+        openConnection.setRequestProperty("Content-Type", "application/Json; charset=UTF-8");
+        openConnection.setRequestProperty("Accept","application/json, text/plain, */*");
+        //不缓存
+        openConnection.setUseCaches(false);
+        openConnection.setConnectTimeout(5000);
+        openConnection.setReadTimeout(10000);
+        openConnection.setRequestProperty("cookie", this.myCookie);
+        openConnection.setRequestProperty("Authorization",this.Authorization);
+        System.out.println("开始连接...");
+        //建立连接
+        openConnection.connect();
+        System.out.println("成功连接");
+        return openConnection;
     }
     //文件上传post
     private HttpURLConnection sendPostConnection(String postUrl) throws Exception {

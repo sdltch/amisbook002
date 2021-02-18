@@ -25,7 +25,7 @@ public class Excel {
         //System.out.println("===========os.namesxcel:"+mySystems);
         if(mySystems.contains("Windows")){
             //windows
-            paths = "D:\\testdata\\github\\amisbook\\amisrobot\\excel\\amirobotclound.xls";
+            paths = "D:\\testdata\\github\\amisbookclound\\amisrobot\\excel\\amirobotclounds.xls";
             System.out.println("当前在excel:"+mySystems+" 系统操作");
         }else if(mySystems.contains("Linux")){
             //linux路径
@@ -169,18 +169,20 @@ public class Excel {
         //System.out.println("sheet对象：" + sheetx);
         //获取最后一行的num，即总行数。此处从0开始计数
         int maxRow = sheetx.getLastRowNum();
-        System.out.println("xlsx总行数为：" + maxRow);
+        System.out.println("xlsx总行数为：" + (maxRow+1));
         for (int row = 0; row <= maxRow; row++) {
             //获取最后单元格num，即总单元格数 ***注意：此处从1开始计数***
             int maxRol = sheetx.getRow(row).getLastCellNum();
             //创建一个String数组存放每行
             String[] rowDatax = new String[sheetx.getPhysicalNumberOfRows()];
-            //System.out.println("--------第" + row + "行的数据如下--------");
-            for (int rol = 0; rol < maxRol; rol++){
-                //System.out.print(sheetx.getRow(row).getCell(rol) + " ");
+            System.out.println("--------第" + (row+1) + "行的数据如下-------共："+maxRol+"格");
+            for (int rol = 0; rol < (maxRol-1); rol++){
+                System.out.print(sheetx.getRow(row).getCell(rol) + " ");
                 XSSFCell cellx = sheetx.getRow(row).getCell(rol);
                 //将每行数据保存在String数组中
-                rowDatax[rol] = cellx.getStringCellValue();
+                if(cellx.getStringCellValue() != ""){
+                    rowDatax[rol] = cellx.getStringCellValue();
+                }
             }
             //将每行保存在列表中。
             alx.add(rowDatax);

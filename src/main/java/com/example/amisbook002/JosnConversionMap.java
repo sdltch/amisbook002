@@ -25,6 +25,7 @@ public class JosnConversionMap {
         System.out.println("testmap集合: "+textMap.toString());
         return textMap;
     }
+//    测试
     private Map<String, String> test() throws Exception {
         Request request = new Request();
         String  strArr1 = "file=(binary)," +

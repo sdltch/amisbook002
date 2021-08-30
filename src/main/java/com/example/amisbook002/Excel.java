@@ -25,7 +25,7 @@ public class Excel {
         //System.out.println("===========os.namesxcel:"+mySystems);
         if(mySystems.contains("Windows")){
             //windows
-            paths = "D:\\testdata\\github\\amisbookclound\\amisrobot\\excel\\amirobotclounds.xls";
+            paths = "D:\\testdata\\github\\amisbookclound\\amisrobot\\excel\\amirobot.xls";
             System.out.println("当前在excel:"+mySystems+" 系统操作");
         }else if(mySystems.contains("Linux")){
             //linux路径
@@ -74,6 +74,95 @@ public class Excel {
         //.out.println("文件真实后缀名称："+suffix);
         return all;
     }
+    //xsl
+    public static ArrayList<String[]> readExcel(String mypath) {
+        //创建workbook
+        Workbook workbook = null;
+        try {
+            //只支持xls文件
+            //mypath = "D:\\testdata\\amisbook002\\amisrobot\\excel\\testamirobot.xls";
+            File filepath = new File(mypath);
+            //workbook = Workbook.getWorkbook(new File("D:\\Users\\Administrator\\Desktop\\RC(包)\\TestPHPYun.xls"));
+            workbook = Workbook.getWorkbook(filepath);
+
+
+        } catch (BiffException | IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        //创建一个列表集合用于存放所有的表格数据
+        ArrayList<String[]> al = new ArrayList<String[]>();
+        //获取第一个工作表sheet
+        Sheet sheet = workbook.getSheet(0);
+        System.out.println("xls总行数为：" + sheet.getRows());
+        for (int i = 0; i < sheet.getRows(); i++) {
+            //创建一个String数组存放每行
+            String[] rowData = new String[sheet.getColumns()];
+            System.out.println("xls第"+i+"行有:"+sheet.getColumns()+"格");
+            for (int j = 0; j < sheet.getColumns(); j++) {
+                Cell cell = sheet.getCell(j, i);
+                //System.out.print(sheet.getCell(j, i) + "  ");
+                //将每行数据保存在String数组中
+                rowData[j] = cell.getContents();
+                System.out.println( "xls第："+i+"行；第： "+j+"格："+cell.getContents());
+            }
+
+            //将每行保存在列表中。
+            al.add(rowData);
+        }
+
+        workbook.close();
+        return al;
+    }
+    //xlsx
+    public static ArrayList<String[]> readExcelx(String mypathx) throws Exception {
+        //创建XSSFWorkbook
+        XSSFWorkbook xssfWorkbook = null;
+        try {
+            //mypathx = "D:\\testdata\\amisbook002\\amisrobot\\excel\\testamirobot.xlsx";
+            //创建工作簿
+            xssfWorkbook = new XSSFWorkbook(new FileInputStream(mypathx));
+            //System.out.println("xssfWorkbook对象：" + xssfWorkbook);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //创建一个列表集合用于存放所有的表格数据
+        ArrayList<String[]> alx = new ArrayList<String[]>();
+        //读取第一个工作表
+        XSSFSheet sheetx = xssfWorkbook.getSheetAt(0);
+        //System.out.println("sheet对象：" + sheetx);
+        //获取最后一行的num，即总行数。此处从0开始计数
+        int maxRow = sheetx.getLastRowNum();
+        System.out.println("xlsx总行数为：" + (maxRow+1));
+        for (int row = 0; row <= maxRow; row++) {
+            //获取最后单元格num，即总单元格数 ***注意：此处从1开始计数***
+            int maxRol = sheetx.getRow(row).getLastCellNum();
+            //创建一个String数组存放每行
+            String[] rowDatax = new String[sheetx.getPhysicalNumberOfRows()];
+            System.out.println("--------第" + (row+1) + "行的数据如下-------共："+maxRol+"格");
+            for (int rol = 0; rol < maxRol; rol++){
+               // System.out.println(sheetx.getRow(row).getCell(rol) + " ");
+                XSSFCell cellx = sheetx.getRow(row).getCell(rol);
+
+                //将每行数据保存在String数组中
+//                if (cellx == null) {
+//                    rowDatax[rol] = "";
+//                }else {
+//                    rowDatax[rol] = cellx.getStringCellValue();
+//                }
+                rowDatax[rol] = cellx.getStringCellValue();
+//                if(cellx.getStringCellValue() != ""){
+//                    rowDatax[rol] = cellx.getStringCellValue();
+//                }
+                System.out.println( "第："+(row+1)+"行；第： "+(rol+1)+"格："+sheetx.getRow(row).getCell(rol));
+            }
+            //将每行保存在列表中。
+            alx.add(rowDatax);
+            //System.out.println();
+        }
+        xssfWorkbook.close();
+        return alx;
+    }
     //xls
     public static ArrayList<String[]> readExcelxx(String mypathx) throws Exception {
         //创建XSSFWorkbook
@@ -111,84 +200,6 @@ public class Excel {
             alx.add(rowDatax);
         }
         hssfWorkbook.close();
-        return alx;
-    }
-    //xsl
-    public static ArrayList<String[]> readExcel(String mypath) {
-        //创建workbook
-        Workbook workbook = null;
-        try {
-            //只支持xls文件
-            //mypath = "D:\\testdata\\amisbook002\\amisrobot\\excel\\testamirobot.xls";
-            File filepath = new File(mypath);
-            //workbook = Workbook.getWorkbook(new File("D:\\Users\\Administrator\\Desktop\\RC(包)\\TestPHPYun.xls"));
-            workbook = Workbook.getWorkbook(filepath);
-
-
-        } catch (BiffException | IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        //创建一个列表集合用于存放所有的表格数据
-        ArrayList<String[]> al = new ArrayList<String[]>();
-        //获取第一个工作表sheet
-        Sheet sheet = workbook.getSheet(0);
-        System.out.println("xls总行数为：" + sheet.getRows());
-        for (int i = 0; i < sheet.getRows(); i++) {
-            //创建一个String数组存放每行
-            String[] rowData = new String[sheet.getColumns()];
-            for (int j = 0; j < sheet.getColumns(); j++) {
-                Cell cell = sheet.getCell(j, i);
-                //System.out.print(sheet.getCell(j, i) + "  ");
-                //将每行数据保存在String数组中
-                rowData[j] = cell.getContents();
-            }
-            //将每行保存在列表中。
-            al.add(rowData);
-        }
-
-        workbook.close();
-        return al;
-    }
-    //xlsx
-    public static ArrayList<String[]> readExcelx(String mypathx) throws Exception {
-        //创建XSSFWorkbook
-        XSSFWorkbook xssfWorkbook = null;
-        try {
-            //mypathx = "D:\\testdata\\amisbook002\\amisrobot\\excel\\testamirobot.xlsx";
-            //创建工作簿
-            xssfWorkbook = new XSSFWorkbook(new FileInputStream(mypathx));
-            //System.out.println("xssfWorkbook对象：" + xssfWorkbook);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        //创建一个列表集合用于存放所有的表格数据
-        ArrayList<String[]> alx = new ArrayList<String[]>();
-        //读取第一个工作表
-        XSSFSheet sheetx = xssfWorkbook.getSheetAt(0);
-        //System.out.println("sheet对象：" + sheetx);
-        //获取最后一行的num，即总行数。此处从0开始计数
-        int maxRow = sheetx.getLastRowNum();
-        System.out.println("xlsx总行数为：" + (maxRow+1));
-        for (int row = 0; row <= maxRow; row++) {
-            //获取最后单元格num，即总单元格数 ***注意：此处从1开始计数***
-            int maxRol = sheetx.getRow(row).getLastCellNum();
-            //创建一个String数组存放每行
-            String[] rowDatax = new String[sheetx.getPhysicalNumberOfRows()];
-            System.out.println("--------第" + (row+1) + "行的数据如下-------共："+maxRol+"格");
-            for (int rol = 0; rol < (maxRol-1); rol++){
-                System.out.print(sheetx.getRow(row).getCell(rol) + " ");
-                XSSFCell cellx = sheetx.getRow(row).getCell(rol);
-                //将每行数据保存在String数组中
-                if(cellx.getStringCellValue() != ""){
-                    rowDatax[rol] = cellx.getStringCellValue();
-                }
-            }
-            //将每行保存在列表中。
-            alx.add(rowDatax);
-            //System.out.println();
-        }
-        xssfWorkbook.close();
         return alx;
     }
 }

@@ -38,7 +38,8 @@ public class ImportResponse {
         return myjsonmap;
     }
     //将excel表中response数据用“；”和“=”分割后，将响应的某个字段存入map中
-    public  HashMap<String, String>  responseGinseng(JSONObject jsonObject,String[] countsone,String myrespones,HashMap<String, String> myjsonmap){
+    public  HashMap<String, String>  responseGinseng(JSONObject jsonObject,String[] countsone,
+                                                     String myrespones,HashMap<String, String> myjsonmap){
 //        if (countsone)
         if (countsone.length == 2){
             String sponseone = countsone[0];

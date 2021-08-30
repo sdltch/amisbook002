@@ -9,7 +9,8 @@ import java.security.spec.X509EncodedKeySpec;
 import javax.crypto.Cipher;
 public class decryptByPublicKey {
     //获取公钥
-    static String RSA_PUB_KEY="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCEitzF+mZYpJonCKSRsdu5YFSFhbeB1MTzhswRmK8EocXivHK4eAOUgCRt+N9jKRAMzcmiLO1xJU5ZMNXbcW1qmPrFeRlEYppirQQuVqzFiKoh8HKkOgvCv2eDx1G2BIlLQbRSY9YLoLQWmje2xVyNxp8LaQv+Wym0euMDHNJbSwIDAQAB";
+    static String RSA_PUB_KEY = DataManipulation.RSA_PUB_KEY;
+    //static String RSA_PUB_KEY="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCEitzF+mZYpJonCKSRsdu5YFSFhbeB1MTzhswRmK8EocXivHK4eAOUgCRt+N9jKRAMzcmiLO1xJU5ZMNXbcW1qmPrFeRlEYppirQQuVqzFiKoh8HKkOgvCv2eDx1G2BIlLQbRSY9YLoLQWmje2xVyNxp8LaQv+Wym0euMDHNJbSwIDAQAB";
     static String KEY_ALGORITHM = "RSA";
     static String SIGNATURE_ALGORITHM = "MD5withRSA";
     static int MAX_ENCRYPT_BLOCK = 117;

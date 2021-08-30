@@ -17,9 +17,11 @@ public class MyAssert {
         if (key.toUpperCase().equals("STRING")) {
             if (actual.contains(myExpected)) {
                 System.out.println("STRING ++++++ Test Case Pass; 用例编号：" + caseID);
+                System.out.println("结束----------------------------------------------------------");
                 Report.recordResult(a, true, actual,interfaceUrl,notecase);
             } else {
                 System.out.println("STRING ++++++ Test Case Fail; 用例编号：" + caseID);
+                System.out.println("结束----------------------------------------------------------");
                 Report.recordResult(a, false, actual,interfaceUrl,notecase);
             }
         } else if (key.toUpperCase().equals("TYPE")) {
@@ -27,17 +29,21 @@ public class MyAssert {
                 System.out.println("#######################" + actual);
                 if (actual.matches("^[1-9][0-9]*$")) {
                     System.out.println("TYPE  @@@@@@@@Test Case Pass; 用例编号：" + caseID);
+                    System.out.println("结束----------------------------------------------------------");
                     Report.recordResult(a, true, actual,interfaceUrl,notecase);
                 } else {
                     System.out.println("TYPE  @@@@@@@@Test Case Fail; 用例编号：" + caseID);
+                    System.out.println("结束----------------------------------------------------------");
                     Report.recordResult(a, false, actual,interfaceUrl,notecase);
                 }
             } else if (myExpected.toUpperCase().equals("NOTNUMBER")) {
                 if (!actual.matches("^[1-9][0-9]*$")) {
                     System.out.println("TYPE  ------Test Case Pass; 用例编号：" + caseID);
+                    System.out.println("结束----------------------------------------------------------");
                     Report.recordResult(a, true, actual,interfaceUrl,notecase);
                 } else {
                     System.out.println("TYPE  ------Test Case Fail; 用例编号：" + caseID);
+                    System.out.println("结束----------------------------------------------------------");
                     Report.recordResult(a, false, actual,interfaceUrl,notecase);
                 }
             }

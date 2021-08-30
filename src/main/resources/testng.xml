@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<suite name = "wo zij ">
+    <test name = "dsdf ">
+        <classes>
+            <class name = "com.example.amisbook002.MainStart">
+                <methed>
+                    <include name="main"/>
+                </methed>
+
+            </class>
+
+        </classes>
+    </test>
+    <listeners>
+        <lostemer class-name="com.example.amisbook002.ExtentTestNGIReporterListener"/>
+    </listeners>
+</suite>

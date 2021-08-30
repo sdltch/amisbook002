@@ -1,7 +1,6 @@
 package com.example.operation;
 
 import com.alibaba.fastjson.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -25,12 +24,12 @@ public class PutRequest {
                     //以=进行分割
                     String[] splitones = s.split("=");
                     System.out.println("request长度:" + splitones.length);
-                    jsonObject = requestGinseng(splitones, jsonObject,myrequest,myjsonmap);
+                    jsonObject = requestGinseng(splitones, jsonObject, myrequest, myjsonmap);
                 }
             } else {
                 String[] requestspone = myrequest.split("=");
                 System.out.println("request长度:" + requestspone.length);
-                jsonObject = requestGinseng(requestspone, jsonObject,myrequest,myjsonmap);
+                jsonObject = requestGinseng(requestspone, jsonObject, myrequest, myjsonmap);
             }
             ss=JSONObject.toJSONString(jsonObject);
         }
@@ -46,7 +45,7 @@ public class PutRequest {
             System.out.println("questone:" + questone);
             System.out.println("questtwo:" + questtwo);
             System.out.println("myjsonmap.get(questtwo):" + myjsonmap.get(questtwo));
-            //更换tonken
+            //更换
             jsonObject.put(questone, myjsonmap.get(questtwo));
             //转化成Map<String, String>
             //Map<String, String> jsonMap = JSONObject.toJavaObject(jsonObject, Map.class);

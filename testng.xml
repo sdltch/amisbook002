@@ -2,11 +2,17 @@
 <suite name="Suite" parallel="false">
     <test name="test">
         <classes>
-<!--            <class name="com.example.amisbook002.MainStart"/>-->
+            <class name = "com.example.amisbook002.DataManipulation">
+                <methed>
+                    <include name="mytest"/>
+                </methed>
+
+            </class>
         </classes>
 
     </test>
     <listeners>
+        <lostemer class-name="com.example.amisbook002.ExtentTestNGIReporterListener"/>
     </listeners>
 
 </suite> <!-- Suite -->
